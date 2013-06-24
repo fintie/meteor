@@ -1,5 +1,5 @@
 <head>
-  <title>BilitBox - Worlds Realtime Marketplace</title>
+  <title>BilitBox - The Worlds Realtime Marketplace</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
@@ -10,8 +10,10 @@
 <body>
     <div class="container-fluid">
         {{>navigation}}
-
-        {{renderPage}}
+        <div class="row-fluid">
+            <div class="span9">{{renderPage}}</div>
+            <div class="span3">{{> general_events}}</div>
+        </div>
     </div>
 
     <!-- Load external public JS here for greater good =============================-->
@@ -30,4 +32,3 @@
     <script src="/js/icon-font-ie7-24.js"></script>
     <![endif]-->
 </body>
-

@@ -5,6 +5,7 @@
 Meteor.Router.add({
     '/': 'homepage',
     '/market': 'market',
+    '/market/add': 'add_market',
     '/account': 'account'
 });
 

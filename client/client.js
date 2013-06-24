@@ -103,3 +103,12 @@ Template.messages.usersName = function(userId)  {
 
 };
 */
+
+// UI for creating a new account
+Accounts.ui.config({
+  requestPermissions: {
+  },
+  requestOfflineToken: {
+  },
+  passwordSignupFields: 'USERNAME_AND_EMAIL'
+});

@@ -7,10 +7,13 @@
 
 # HTML5-History-API needs to be above router
 
-preserve-inputs
-accounts-google
 accounts-ui
+accounts-password
+accounts-facebook
+
+preserve-inputs
 moment
 HTML5-History-API
 router
 spiderable
+accounts-base
