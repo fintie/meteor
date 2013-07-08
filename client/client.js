@@ -110,9 +110,11 @@ Accounts.ui.config({
 
 // Subscriptions
 Meteor.subscribe("all_products");
+Meteor.subscribe("inventory");
 
 Deps.autorun(function () {
     Meteor.subscribe("user_products");
+    Meteor.subscribe("user_inventory");
 });
 
 // Account

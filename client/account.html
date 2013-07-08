@@ -1,10 +1,56 @@
 <template name="account">
     <h1>Account</h1>
+    {{> account_details}}
+
+    <h3>Inventory</h3>
+    <!-- Line to add in inventory item -->
+    {{> inventory_add_form}}
+    {{#each inventory}}
+
+    {{/each}}
+
+
+
     <h3>Products</h3>
-    {{> account_products}}
+    {{!> account_products}}
 
     <h3>Locations</h3>
     {{> account_locations}}
+</template>
+
+<template name="account_details">
+    <form id='users-details-form' class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="last_name">First Name</label>
+            <div class="controls">
+                <input type="text" id="first_name" placeholder="First Name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="last_name">Last Name</label>
+            <div class="controls">
+                <input type="text" id="last_name" placeholder="Last Name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+                <input type="text" id="email" placeholder="Email">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="phone_number">Phone Number</label>
+            <div class="controls">
+                <input type="text" id="phone_number" placeholder="Phone Number">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="name">Mobile Phone</label>
+            <div class="controls">
+                <input type="text" id="mobile_phone" placeholder="Mobile Phone">
+            </div>
+        </div>
+    </form>
 </template>
 
 <template name="account_products">
