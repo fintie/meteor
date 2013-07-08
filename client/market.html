@@ -8,11 +8,41 @@
     	</a>
     </div>
     <h3>Active Markets</h3>
-   	{{> active_markets}}
+   	{{#each active_markets}}
+        {{> market_row}}
+    {{/each}}
 </template>
 
-<template name="active_markets">
+<template name="market_row">
+        <div class='well market-row' data-id='{{_id}}'>
+            <div class='row-fluid'>
+                <div class='span6'><h4><a href="/market/{{_id}}">{{name}}</a></h4></div>
+                <div class='span6 text-right'>Ending {{fromNow end_date}}</div>
+            </div>
+            {{#each products}}
+                {{> market_row_product }}
+            {{/each}}
+        </div>
+</template>
 
+<template name="market_row_product">
+    <div class='row-fluid'>
+        <div class='span3'>
+            {{#product_lookup product }}
+                {{ this.name }}
+            {{/product_lookup}}
+        </div>
+        <div class='span4 text-center'>
+            <div>{{ remaining }} @${{ price }}</div>
+            <div>
+                <input type="number" class='input-mini' id="quantity" value="1" min="1" max="{{quantity}}" />
+                <a href='#' class='btn btn-small bid'>Bid</a>
+            </div>
+        </div>
+        <div class='span3'>
+
+        </div>
+    </div>
 </template>
 
 <template name="add_market">
@@ -21,16 +51,100 @@
 </template>
 
 <template name="market_form">
-	<form class="form-horizontal">
-		<div class="control-group">
-			<label class="control-label" for="inputEmail">Email</label>
-			<div class="controls"><input type="text" id="inputEmail" placeholder="Email"></div>
-		</div>
-		
-		<div class="control-group">
-			<div class="controls">
-				<button type="submit" class="btn">Sign in</button>
-			</div>
+	<form id='market_form' class="form-horizontal">
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Market Details</h3>
+                <div class="control-group">
+                    <label class="control-label" for="name">Name</label>
+                    <div class="controls"><input type="text" id="name" placeholder="Name"></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Market Type</label>
+                    <div class="controls">
+                        <select id="type">
+                            <option value="">Event</option>
+                            <option value="">Product</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="date">Start Date</label>
+                    <div class="controls"><input type="date" id="start_date" value="{{formatted_date}}"></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="date">End Date</label>
+                    <div class="controls"><input type="date" id="end_date" value="{{formatted_date}}"></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="user_location">Location</label>
+                    <div class="controls"><select id="user_location">{{!> user_locations_options}}</select></div>
+                    <div class="controls"><a href="#">Add Location</a></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="event_category">Category</label>
+                    <div class="controls">
+                        <select id="event_category">
+                            {{!> event_category_options}}
+                        <select>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <h3>Items In Market</h3>
+                <a href="#" data-toggle="modal" data-target="#modal_market_add_product">Add Product</a>
+                {{#each market_selected_products }}
+                    <div class='row-fluid'>
+                        <div class='span3'>{{product}}</div>
+                        <div class='span3'>{{price}}</div>
+                        <div class='span3'>{{quantity}}</div>
+                        <div class='span3'>remove</div>
+                    </div>
+                {{/each}}
+                {{> add_product_to_market}}
+            </div>
+        </div>
+
+        <div class="row-fluid">
+			<button type="submit" class="btn pull-right">Create Market</button>
 		</div>
 	</form>
+</template>
+
+<template name="add_product_to_market">
+    <div id="modal_market_add_product" class="modal hide">
+        <form id='market_product_selection' class="form-horizontal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Add Product To Market</h3>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label" for="name">Product</label>
+                    <div class="controls">
+                        {{#unless user_products}}
+                        {{/unless}}
+                        <select id="product">
+                            {{#each user_products}}
+                                <option value="{{_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="controls"><a href="#">Add Product</a></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Price</label>
+                    <div class="controls"><input type="text" id="price" placeholder="Price E.G $49.99"></div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="name">Quantity</label>
+                    <div class="controls"><input type="text" id="quantity" placeholder="Quantity E.G 100"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
 </template>

@@ -10,6 +10,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <div class="nav-collapse collapse">
+                            {{loginButtons}}
                             <ul class="nav">
                                 {{#each pages}}
                                     <li {{{getNavigationStyle page}}}>
@@ -20,14 +21,15 @@
                                     </li>
                                 {{/each}}
                             </ul>
+
                             <ul class="nav pull-right">
                                 <li class="divider-vertical"></li>
-                                <li class="dropdown">
-                                    {{loginButtons}}
-                                </li>
+
+                                <li class="dropdown"></li>
+
                             </ul>
                         </div><!--/.nav-collapse -->
-                        
+
                     </div>
                 </div>
             </div>
