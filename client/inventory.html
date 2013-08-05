@@ -13,9 +13,9 @@
   		<div class="modal-body">-->
 			<form id='inventory_form' class="form-horizontal">
 				<div class="control-group">
-					<label class="control-label" for="category_name">Category Name</label>
+					<label class="control-label" for="category_name">Product</label>
 					<div class="controls">
-						<input type="text" id="category_name" placeholder="Category Name">
+						<input type="text" id="product" placeholder="Product">
 					</div>
 				</div>
 				<div class="control-group">
@@ -28,32 +28,13 @@
 						</select>
 					</div>
 				</div>
-				<table id="price-points" class='table table-bordered'>
-					<thead>
-						<tr>
-							<th>Price Point Name</th>
-							<th>Multiplier</th>
-							<th>Available</th>
-							<th>Price</th>
-							<th>&nbsp;</th>
-					</thead>
-					<tbody>
-						<tr class='price-point-row'>
-							<td><input type='text' name='price_point_name' placeholder='Name' /></td>
-							<td><input type='number' class='input-mini' name='price_point_multiplier' value='1' min-value='0' /></td>
-							<td><input type='number' class='input-mini' name='price_point_quantity' value='0' min-value='0' /></td>
-							<td><input type='text' class='input-mini' name='price_point_price' placeholder='Price' /></td>
-							<td>
-								<span class='badge badge-success'>29 units</span><br/>
-								<span class="badge badge-important">delete</span><br/>
-								<span class="badge badge-important">Add Sale Line</span>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<div id='inventory_price_points'>
+					{{> inventory_price_point }}
+				</div>
 				<div class='row-fluid text-right'>
 					<a href='#' class='add-price-point'>Add Price Point</a>
 				</div>
+
 				<p>&nbsp;</p>
 				<div class='row=fluid text-right'>
 					<div class='controls'>
@@ -67,4 +48,43 @@
     		<button class="btn btn-primary" data-dismiss="modal">Save changes</button>
 		</div>
 		-->
+</template>
+
+<template name='inventory_price_point'>
+	<div class='row-fluid well price-point'>
+		<div class='row-fluid'>
+			<div class='form-inline'>
+				PPN: <input class='span4 pp_name' type='text' name='pp_name' />
+				Multiplier: <input class='span1 pp_multiplier' type='text' name='pp_multiplier' />
+			</div>
+		</div>
+		<p>&nbsp;</p>
+		<div class='row-fluid'>
+			<!--<div class='span2'>Name</div>-->
+			<!--<div class='span2'>Multiplier</div>-->
+			<div class='span2'>Input Price</div>
+			<!--<div class='span2'>Qty</div>-->
+			<div class='span2'>IA</div>
+			<!--<div class='span2'>Display Price</div>-->
+			<!--<div class='span2'>Options</div>-->
+		</div>
+		<div class='sale-lines'>
+			{{> inventory_price_point_product}}
+		</div>
+		<div class='row-fluid'>
+			<a href='#' class='addProduct'>Add Sale Line</div>
+		</div>
+	</div>
+</template>
+
+<template name='inventory_price_point_product'>
+	<div class='row-fluid sale-line'>
+		<div class='span2'><input class='span12 sl_price' type='text' name='sl_price' /></div>
+		<!--<div class='span2'><input class='span12 sl_quantity' type='text' name='sl_quantity' /></div>-->
+		<div class='span2'><input class='span12 sl_ia' type='text' name='sl_ia' /></div>
+		<!--<div class='span2'>{{display_price}}</div>-->
+		<div class='span2'>
+			<span class="badge badge-important delete-product">delete</span><br/>
+		</div>
+	</div>
 </template>
