@@ -6,7 +6,10 @@ Meteor.Router.add({
     '/': 'homepage',
     '/market': 'market',
     '/market/add': 'add_market',
-    '/account': 'account'
+    '/account': 'account',
+    '/account/markets': 'account_market',
+    '/account/markets/create': 'account_market_create',
+    '/account/inventory': 'account_inventory'
 });
 
 // secure the app, only show a holding page if we are not signed in

@@ -1,0 +1,91 @@
+<template name="account_market">
+	<h2>My Markets</h2>
+	<a href='/accounts/markets/create' class='btn btn-info'>Create Market</a>
+	<div class='markets'>
+		{{#each markets}}
+			{{> market_row}}
+		{{/each}}
+	</div>
+</template>
+
+<template name="account_market_row">
+	<div class='row account_market'>
+		
+	</div>
+</template>
+
+<template name="account_market_create">
+	<h2>Create New Market</h2>
+	<form id='market_create' class='form-horizontal'>
+		<div class='row-fluid'>
+			<div class='span4'>
+				<div class="control-group">
+					<label class="control-label" for="title">Title</label>
+					<div class="controls">
+						<input type='text' name='title' id='title' />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="venues">Venue(s)</label>
+					<div class="controls">
+						<input type='text' name='venues' id='venues' />
+					</div>
+				</div>
+			</div>
+			<div class='span8'>
+				<select id='product'>
+					<option value=''>Select Product</option>
+					{{#each account_products}}
+						<option value="{{this._id}}">{{this.name}}</option>
+					{{/each}}
+				</select>
+				<a href='#' id='add_product_to_market' class='btn btn-primary'>Add Product</a>
+				<a href='#' id='clear_market_products' class='btn btn-primary'>Clear Products</a>
+				<div class='product-list'>
+					{{#each market_selected_products }}
+						{{> market_product_row}}
+					{{/each}}
+				</div>
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="market_product_row">
+	<div class='row-fluid market_product'>
+		<input type='hidden' name='id' value="{{_id}}" />
+		<div class='row-fluid' style='padding-top: 12px;'>
+			<div class='span2'><strong>{{name}}</strong></div>
+			<div class='span2'>Sale Method:</div>
+			<div class='span4'>
+				<select class=''>
+					<option value='auction'>Auction</option>
+					<option value='fixed'>Fixed</option>
+				</select>
+			</div>
+			<div class='span2'>Price Points:{{price_points.length}}</div>
+		</div>
+		{{#each price_points}}
+			<div class='row-fluid'>
+				<div class='span2'>{{pricepoint}}</div>
+				<div class='span1'>{{multiplier}}</div>
+				<div class='span9'>
+					<div class='row-fluid'>
+						<div class='span3'>Price</div>
+						<div class='span3'>Fees</div>
+						<div class='span3'>Taxes</div>
+						<div class='span3'>Display price</div>
+					</div>
+					{{#each sale_lines}}
+						<div class='row-fluid sale-line'>
+							<div class='span3'><input type='number' class='input-mini' value='{{price}}'></div>
+							<div class='span3'> - </div>
+							<div class='span3'> - </div>
+							<div class='span3'>{{price}}</div>
+						</div> 
+					{{/each}}
+				</div>
+			</div>
+		{{/each}}
+	</div>
+</template>

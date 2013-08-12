@@ -2,9 +2,6 @@ Template.inventory_add_form.events({
 	'submit' : function(e,t) {
 		e.preventDefault();
 		console.log('save triggered');
-
-		
-
 		var name = t.find('#product').value;
 		var sale_method = t.find('#sale_method').value;
 		var product = {
@@ -22,6 +19,7 @@ Template.inventory_add_form.events({
 
 
 			var price_point = {
+				_id: Meteor.Collection.ObjectID(),
 				pricepoint: null,
 				multiplier: 1,
 				sale_lines: []
@@ -39,6 +37,7 @@ Template.inventory_add_form.events({
 				var quantity = Math.floor(parseInt(ia.val(), 10) / parseInt(pp_multiplier.val(), 10));
 				//quantity = quantity.toFixed(0);
 				var sale_line = {
+					_id: Meteor.Collection.ObjectID(),
 					price: price.val(),
 					quantity: quantity,
 					ia: ia.val()
