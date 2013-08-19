@@ -111,6 +111,9 @@ Accounts.ui.config({
 // Subscriptions
 Meteor.subscribe("all_products");
 Meteor.subscribe("inventory");
+Meteor.subscribe('products');
+Meteor.subscribe('product_price_points');
+Meteor.subscribe('product_sale_lines');
 
 Deps.autorun(function () {
     Meteor.subscribe("user_products");

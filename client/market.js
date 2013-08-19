@@ -81,3 +81,38 @@ Template.market_row_product.events = ({
         return false;
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// NEW MARKET HANDLERS
+Template.view_market.market = function() {
+    return Markets.findOne(Session.get('current_market_id'));
+}
+
+Template.market_product_detail.product = function() {
+    //console.log(this);
+    return Products.findOne(this._id);
+}
+
+Template.market_price_point.price_point = function() {
+    //console.log('Price Point', this);
+    return ProductPricePoints.findOne(this._id);
+}
+
+Template.market_price_point_sale_line.sale_line = function() {
+    //console.log('Sale Line', this);
+    return ProductSaleLines.findOne(this._id);
+}

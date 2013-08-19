@@ -19,13 +19,14 @@ Template.inventory_add_form.events({
 
 
 			var price_point = {
-				_id: Meteor.Collection.ObjectID(),
-				pricepoint: null,
+				//_id: new Meteor.Collection.ObjectID().toHexString(),
+				name: null,
 				multiplier: 1,
 				sale_lines: []
 			};
+			//console.log(price_point);
 			//console.log('Price Point', pp_name.val(), pp_multiplier.val());
-			price_point.pricepoint = pp_name.val();
+			price_point.name = pp_name.val();
 			price_point.multiplier = pp_multiplier.val();
 			// Iterate through each fo the sale items
 			$(pp).find('.sale-line').each(function(sl_id, sl) {
@@ -36,16 +37,25 @@ Template.inventory_add_form.events({
 				//console.log('Sale Line', price.val(), quantity.val(), ia.val());
 				var quantity = Math.floor(parseInt(ia.val(), 10) / parseInt(pp_multiplier.val(), 10));
 				//quantity = quantity.toFixed(0);
+				/*
 				var sale_line = {
-					_id: Meteor.Collection.ObjectID(),
+					_id: new Meteor.Collection.ObjectID().toHexString(),
 					price: price.val(),
 					quantity: quantity,
-					ia: ia.val()
+					inventory_available: ia.val()
 				};
-				price_point.sale_lines.push(sale_line);
+				//console.log(sale_line);
+				*/
+				var sale_line = {
+					price: price.val(),
+					quantity: quantity,
+					inventory_available: ia.val()
+				};
+				var sale_line_id = ProductSaleLines.insert(sale_line);
+				price_point.sale_lines.push({_sale_line: sale_line_id});
 			});
-
-			product.price_points.push(price_point);
+			var price_point_id = ProductPricePoints.insert(price_point);
+			product.price_points.push({_price_point: price_point_id});
 		});
 
 		product._user = Meteor.userId();
@@ -86,4 +96,4 @@ Template.inventory_price_point_product.events = ({
 		
 		return false;
 	}
-})
+});

@@ -14,6 +14,11 @@
 </template>
 
 <template name="market_row">
+    <div class='well market-row' data-id='{{_id}}'>
+        <div class='row-fluid'><a href='/market/{{_id}}'>{{title}}</a></div>
+    </div>
+
+    <!--
         <div class='well market-row' data-id='{{_id}}'>
             <div class='row-fluid'>
                 <div class='span6'><h4><a href="/market/{{_id}}">{{name}}</a></h4></div>
@@ -23,7 +28,73 @@
                 {{> market_row_product }}
             {{/each}}
         </div>
+    -->
 </template>
+
+<template name="view_market">
+    <h1>Market: {{market.title}}</h1>
+    <!-- Iterate over the products -->
+    {{#each market.products}}
+        {{> market_product_detail}}
+    {{/each}}
+</template>
+
+<template name='market_product_detail'>
+    <div class='market_product'>
+        <div class='row-fluid'>
+            <div class='span3'>Product Name: {{product.name}}</div>
+            <div class='span3'>Sale Method: {{sale_method}}</div>
+        </div>
+        <div class='price_points'>
+            {{#each price_points}}
+                {{> market_price_point}}     
+            {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name='market_price_point'>
+    <div class='price_point well'>
+        <div class='row-fluid'>
+            <div class='span6'>
+                Name: {{price_point.name}}
+            </div>
+            <div class='span6'>
+                Inventory: {{price_point.inventory_available}}
+            </div>
+        </div>
+
+        <div class='row-fluid'>
+            <div class='span6'>
+
+            </div>
+            <div class='span6'>
+                {{#each sale_lines}}
+                    {{> market_price_point_sale_line}}
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name='market_price_point_sale_line'>
+    <div class='span3'>
+        <div class='well'>
+            {{sale_line.quantity}} @ {{sale_line.price}}
+        </div>
+    </div>
+</template>
+
+
+
+
+
+
+
+
+
+
+
 
 <template name="market_row_product">
     <div class='row-fluid'>
