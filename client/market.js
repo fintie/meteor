@@ -58,6 +58,11 @@ Template.add_product_to_market.events = ({
 });
 
 
+
+
+
+
+
 // MARKET BASED OPTIONS
 
 Template.market_row_product.events = ({
@@ -116,3 +121,124 @@ Template.market_price_point_sale_line.sale_line = function() {
     //console.log('Sale Line', this);
     return ProductSaleLines.findOne(this._id);
 }
+
+Template.market_order_stage_1.current_market_orders = function() {
+    //console.log('Current Orders', Session.get('current_market_orders'));
+    // Convert to array
+    var order_lines = Session.get('current_market_orders');
+    var sorted = [];
+    if(typeof order_lines !== 'undefined') {
+        sorted = order_lines.sort(function(a, b) {
+            return a.key > b.key;
+        });
+        return sorted;
+    }
+    return [];
+}
+
+Template.market_order_stage_2.current_market_orders = function() {
+    //console.log('Current Orders', Session.get('current_market_orders'));
+    // Convert to array
+    var order_lines = Session.get('current_market_orders');
+    var sorted = [];
+    if(typeof order_lines !== 'undefined') {
+        sorted = order_lines.sort(function(a, b) {
+            return a.key > b.key;
+        });
+        return sorted;
+    }
+    return [];
+}
+
+Template.view_market.market_order_stage = function() {
+    var stage = Session.get('market_order_stage') || 1;
+    return Template['market_order_stage_' + stage]();
+}
+
+Template.market_order_stage_1.events({
+    'click .proceed': function(e, t) {
+        e.preventDefault();
+
+        var bid_list = {};
+        // Get the contents the user has
+        $('#order_pad_form').find('.order_book_row').each(function(id, row) {
+            var k = $(row).find('.order_key').val();
+            var pp_id = $(row).find('.sl_pp').val();
+            var sl_id = $(row).find('.sl_id').val();
+            var pp_quantity = $(row).find('.sl_quantity').val();
+            var pp_price = $(row).find('.sl_price').val();
+
+            // Var Bid
+            var bid = {
+                price_point_id: pp_id,
+                sale_line_id: sl_id,
+                quantity: pp_quantity,
+                price: pp_price
+            }
+
+            //console.log('Bid Row', bid);
+            bid_list[k] = bid;
+        });
+
+        Session.set('market_order_stage', 2);
+        Session.set('bid_list', bid_list);
+        return false;
+    }
+});
+
+Template.market_order_stage_2.events({
+    'click .proceed': function(e, t) {
+        e.preventDefault();
+
+        // Ok - Save the bid history
+        var bid_list = Session.get('bid_list');
+        var market_id = Session.get('current_market_id');
+        var bids = _.toArray(bid_list);
+        
+        var bid_results = Meteor.call('market_bids', market_id, bids);
+        console.log('Results', bid_results);
+        Session.set('market_order_stage', 3);
+        return false;
+    }
+    , 'click .edit': function(e, t) {
+        e.preventDefault();
+        Session.set('market_order_stage', 1);
+        return false;
+    }
+});
+
+Template.view_market.events({
+    'click .make_offer': function(e, t) {
+        e.preventDefault();
+        //$('#order_pad').remove();
+
+        var sale_line_id = $(e.target).attr('data-id');
+        var pp = ProductPricePoints.findOne({'sale_lines._sale_line': sale_line_id});
+        var sale_line = ProductSaleLines.findOne(sale_line_id);
+        // Get the current market_orders
+        var market_id = Session.get('current_market_id');
+
+        var current_market_orders = Session.get('current_market_orders');
+        //console.log(current_market_bids);
+        if(typeof current_market_orders === 'undefined') {
+            current_market_orders = [];
+        }
+
+        var k = pp.name.replace(/s/g, '_').toUpperCase() + '_' + new Date().getTime();
+        //.current_market_orders[k] = {market: market_id, price_point: pp, sale_line: sale_line};
+        current_market_orders.push({key: k, market: market_id, price_point: pp, sale_line: sale_line});
+
+        Session.set('current_market_orders', current_market_orders);
+
+        /*
+        // Generate a modal popup
+        var templateName = "order_pad_modal";
+        var fragment = Meteor.render( function() {
+            return Template[ templateName ]({price_point: pp, sale_line: sale_line});
+        });
+        $('body').append(fragment);
+        $('#order_pad').modal('show')
+        */
+        return false;
+    }
+});

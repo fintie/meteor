@@ -45,6 +45,24 @@ Handlebars.registerHelper('product_lookup', function(product, options) {
     return ret;
 });
 
+Handlebars.registerHelper('bindBidLine', function(order_row, options) {
+    var data = {};
+    data.pp_id = order_row.price_point._id;
+    data.pp_name = order_row.price_point.name;
+    data.quantity = 0;
+    data.price = order_row.sale_line.price;
+
+    var bid_list = Session.get('bid_list');
+    if(typeof bid_list !== 'undefined') {
+        if(typeof bid_list[order_row.key] !== 'undefined') {
+            data.quantity = bid_list[order_row.key].quantity;
+            data.price = bid_list[order_row.key].price;
+        }
+    }
+    // Override
+    return options.fn(data);
+});
+
 var Utils = {};
 
 Utils.log = function(value) {

@@ -22,3 +22,5 @@ spiderable
 bootstrap
 
 insecure
+#standard-app-packages
+page-js-ie-support

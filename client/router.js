@@ -6,7 +6,6 @@ Meteor.Router.add({
     '/': 'homepage',
     '/market': 'market',
     '/market/:id': function(id) {
-        console.log(id);
         Session.set('current_market_id', id);
         return 'view_market';
     },
