@@ -1,0 +1,19 @@
+### Setup environment
+ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
+brew doctor
+brew install git
+brew install nodejs
+brew install mongodb
+curl https://install.meteor.com | /bin/sh
+
+Clone the Bilitbox app
+
+
+#### IF ERRORS\'
+meteor upgrade
+meteor update --release 0.6.4.1
+edit .meteor/packages.js and uncomment out the line standard-app-packages
+
+## RUN
+sudo npm install --global meteorite
+MONGO_URL=mongodb://localhost/billitbox mrt
