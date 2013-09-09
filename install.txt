@@ -1,3 +1,7 @@
+Rolands Details
+Skype: roland.flanagan
+Mobile: 0433297799
+
 ### Setup environment
 ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go)"
 brew doctor
