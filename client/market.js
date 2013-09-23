@@ -194,9 +194,18 @@ Template.market_order_stage_2.events({
         var bid_list = Session.get('bid_list');
         var market_id = Session.get('current_market_id');
         var bids = _.toArray(bid_list);
-        
-        var bid_results = Meteor.call('market_bids', market_id, bids);
-        console.log('Results', bid_results);
+
+        console.log(bids);
+        //var bid_results = Meteor.call('market_bids', market_id, bids);
+        //console.log('Results', bid_results);
+
+        Meteor.call('market_bid_sell', market_id, bids, function(error, response) {
+            console.log(error, response);
+        });
+
+
+
+
         Session.set('market_order_stage', 3);
         return false;
     }
@@ -208,7 +217,7 @@ Template.market_order_stage_2.events({
 });
 
 Template.view_market.events({
-    'click .make_offer': function(e, t) {
+    'click .make_offer:first': function(e, t) {
         e.preventDefault();
         //$('#order_pad').remove();
 
