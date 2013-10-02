@@ -146,7 +146,7 @@
                 Name: {{price_point.name}}
             </div>
             <div class='span6'>
-                Inventory: {{price_point.inventory_available}}
+                Inventory: TOTAL - {{price_point.inventory_available}}
             </div>
         </div>
 
@@ -166,7 +166,7 @@
 <template name='market_price_point_sale_line'>
     <div class='span3 sale_line'>
         <div class='well make_offer' data-id='{{_id}}'>
-            {{sale_line.quantity}} @ {{sale_line.price}}
+            {{sale_line.inventory_available}} @ {{sale_line.price}}
         </div>
     </div>
 </template>
@@ -273,7 +273,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="date">Start Date</label>
+                    <label class="control-label" for="date">`t Date</label>
                     <div class="controls"><input type="date" id="start_date" value="{{formatted_date}}"></div>
                 </div>
                 <div class="control-group">
