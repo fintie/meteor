@@ -47,9 +47,9 @@ Template.inventory_add_form.events({
 				//console.log(sale_line);
 				*/
 				var sale_line = {
-					price: price.val(),
-					quantity: quantity,
-					inventory_available: ia.val()
+					price: parseFloat(price.val()),
+					quantity: parseInt(quantity, 10),
+					inventory_available: parseInt(ia.val(), 10)
 				};
 				var sale_line_id = ProductSaleLines.insert(sale_line);
 				price_point.sale_lines.push({_sale_line: sale_line_id});
