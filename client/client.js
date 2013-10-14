@@ -131,6 +131,7 @@ Meteor.subscribe("all_products");
 Meteor.subscribe("inventory");
 Meteor.subscribe('products');
 Meteor.subscribe('product_price_points');
+Meteor.subscribe('product_buy_lines');
 Meteor.subscribe('product_sale_lines');
 
 Deps.autorun(function () {

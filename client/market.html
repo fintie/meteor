@@ -152,7 +152,9 @@
 
         <div class='row-fluid'>
             <div class='span6'>
-
+                {{#each getBuyLines price_point._id}}
+                    {{> market_price_point_buy_line}}
+                {{/each}}
             </div>
             <div class='span6'>
                 {{#each sale_lines}}
@@ -160,6 +162,12 @@
                 {{/each}}
             </div>
         </div>
+    </div>
+</template>
+
+<template name='market_price_point_buy_line'>
+    <div class='span3 bid_line'>
+        {{inventory_available}} @ ${{price}}
     </div>
 </template>
 
