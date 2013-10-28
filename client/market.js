@@ -90,6 +90,23 @@ Template.market_row_product.events = ({
 
 
 
+Template.market_price_point.events({
+    'click .setup-bid-offer': function(e,t) {
+        // Popup a modal and allow the user to place a buy offer
+        var pp_id = $(e.target).attr('data-id');
+        // Generate a modal popup
+        var templateName = "buy_offer";
+        var fragment = Meteor.render( function() {
+            // Load in the price point
+
+            return Template[ templateName ]({price_point_id: pp_id});
+        });
+        $('body').append(fragment);
+
+        $('#buy-offer-modal').modal('show');
+    }
+});
+
 
 
 
@@ -249,5 +266,44 @@ Template.view_market.events({
         $('#order_pad').modal('show')
         */
         return false;
+    }
+});
+
+Template.buy_offer.events({
+    'submit': function(e,t) {
+        e.preventDefault();
+
+        var price = parseFloat(t.find('#price').value);
+        var quantity = parseInt(t.find('#quantity').value, 10);
+        var user_id = Meteor.userId();
+        var market_id = Session.get('current_market_id');
+
+        var pp_id = t.find('#price_point_id').value;
+        var pp = ProductPricePoints.findOne({_id: pp_id});
+        if(!pp) {
+            console.log('could not find price point');
+            return false;
+
+        }
+        //console.log('submit found', price.value, quantity.value);
+        var bl = {
+            _user: user_id,
+            _market: market_id,
+            _price_point: pp._id,
+            price: price,
+            quantity: quantity,
+            inventory_available: pp.multiplier * quantity
+        };
+        var pbl = ProductBuyLines.insert(bl);
+
+        //console.log('Added Buy Line', pbl);
+        Meteor.call('processBuyOffer', market_id, pbl, pp._id, function(error, response) {
+            console.log(error, response);
+        });
+        // Once we have added a buy line, run the auto fullfill option for this price point
+        
+        $('#buy-offer-modal').modal('hide');
+        $('#buy-offer-modal form')[0].reset();
+
     }
 });
